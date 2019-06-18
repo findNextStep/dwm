@@ -200,6 +200,7 @@ static void setclientstate(Client *c, long state);
 static void setfocus(Client *c);
 static void setfullscreen(Client *c, int fullscreen);
 static void setlayout(const Arg *arg);
+static void my_setlayout(const Arg*arg);
 static void setmfact(const Arg *arg);
 static void setup(void);
 static void seturgent(Client *c, int urg);
@@ -1497,6 +1498,26 @@ setfullscreen(Client *c, int fullscreen)
 	}
 }
 
+
+void my_setlayout(const Arg*arg){
+    if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt]){
+        if(selmon->lt[selmon->sellt] != &layouts[0]){
+            // when we don`t use default layout
+            // toggle to default layout
+            selmon->lt[selmon->sellt] = &layouts[0];
+        }else{
+            // else toggle to second layout
+            selmon->lt[selmon->sellt] = &layouts[1];
+        }
+    }
+    if (arg && arg->v)
+        selmon->lt[selmon->sellt] = (Layout *)arg->v;
+    strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, sizeof selmon->ltsymbol);
+    if (selmon->sel)
+        arrange(selmon);
+    else
+        drawbar(selmon);
+}
 void
 setlayout(const Arg *arg)
 {
