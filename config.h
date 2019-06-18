@@ -1,3 +1,4 @@
+#include "push.c"
 /* See LICENSE file for copyright and license details. */
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -79,10 +80,13 @@ static Key keys[] = {
 	{ superk,                       XK_f,      spawn,          SHCMD("nemo") },
 	{ superk|shift_,                XK_Return, spawn,          SHCMD("dmenu_z") },
 	{ superk,                       XK_Return, spawn,          SHCMD("st") },
+    { ctrl_k|l_alt_,                XK_a,      spawn,          SHCMD("shutter -s -n -c")  },
     /* about windows move */
 	{ MODKEY,                       XK_n,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+    { MODKEY|ctrl_k,                XK_j,      pushdown,       {0} },
+    { MODKEY|ctrl_k,                XK_k,      pushup,         {0} },
 	{ MODKEY|shift_,                XK_h,      incnmaster,     {.i = +1 } },
 	{ MODKEY|shift_,                XK_l,      incnmaster,     {.i = -1 } },
 	{ MODKEY|ctrl_k,                XK_h,      setmfact,       {.f = -0.05} },
@@ -94,10 +98,7 @@ static Key keys[] = {
 	{ MODKEY|shift_,                XK_space,  my_setlayout,   {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  my_setlayout,   {0} }, // toggle between layout 1 and 2
 	{ MODKEY,                       XK_t,      togglefloating, {0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } }, // show all windows
-	{ MODKEY|shift_,                XK_0,      tag,            {.ui = ~0 } }, // show in all tags
-	{ MODKEY,                       XK_u,      focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_i,      focusmon,       {.i = +1 } },
+	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } }, // show all windows { MODKEY|shift_,                XK_0,      tag,            {.ui = ~0 } }, // show in all tags { MODKEY,                       XK_u,      focusmon,       {.i = -1 } }, { MODKEY,                       XK_i,      focusmon,       {.i = +1 } },
 	{ MODKEY|shift_,                XK_u,      tagmon,         {.i = -1 } },
 	{ MODKEY|shift_,                XK_i,      tagmon,         {.i = +1 } },
 	TAGKEYS(                        XK_a,                      0)
