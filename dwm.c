@@ -187,6 +187,7 @@ static void destroynotify(XEvent *e);
 static void detach(Client *c);
 static void detachstack(Client *c);
 static Monitor *dirtomon(int dir);
+static Monitor *dirtomon_with_end(int dir);
 static void drawbar(Monitor *m);
 static void drawbars(void);
 static void enternotify(XEvent *e);
@@ -804,6 +805,19 @@ detachstack(Client *c)
 }
 
 Monitor *
+dirtomon_with_end(int dir){
+	Monitor *m = NULL;
+	if (dir > 0) {
+		return selmon->next;
+    } else if (selmon == mons){
+        return NULL;
+    } else{
+		for (m = mons; m->next != selmon; m = m->next);
+        return m;
+    }
+}
+
+Monitor *
 dirtomon(int dir)
 {
 	Monitor *m = NULL;
@@ -983,8 +997,10 @@ focusmon(const Arg *arg)
 
 	if (!mons->next)
 		return;
-	if ((m = dirtomon(arg->i)) == selmon)
+	if ((m = dirtomon_with_end(arg->i)) == selmon)
 		return;
+    if (m == NULL)
+        return;
 	unfocus(selmon->sel, 0);
 	selmon = m;
 	focus(NULL);
