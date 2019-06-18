@@ -84,7 +84,7 @@ static Key keys[] = {
     /* about windows move */
 	{ MODKEY,                       XK_n,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
     { MODKEY|ctrl_k,                XK_j,      pushdown,       {0} },
     { MODKEY|ctrl_k,                XK_k,      pushup,         {0} },
 	{ MODKEY|shift_,                XK_h,      incnmaster,     {.i = +1 } },
@@ -98,9 +98,12 @@ static Key keys[] = {
 	{ MODKEY|shift_,                XK_space,  my_setlayout,   {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  my_setlayout,   {0} }, // toggle between layout 1 and 2
 	{ MODKEY,                       XK_t,      togglefloating, {0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } }, // show all windows { MODKEY|shift_,                XK_0,      tag,            {.ui = ~0 } }, // show in all tags { MODKEY,                       XK_u,      focusmon,       {.i = -1 } }, { MODKEY,                       XK_i,      focusmon,       {.i = +1 } },
-	{ MODKEY|shift_,                XK_u,      tagmon,         {.i = -1 } },
-	{ MODKEY|shift_,                XK_i,      tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } }, // show all windows
+    { MODKEY|shift_,                XK_0,      tag,            {.ui = ~0 } }, // show in all tags
+	{ MODKEY,                       XK_q,      focusmon,       {.i = -1 } },
+	{ MODKEY,                       XK_w,      focusmon,       {.i = +1 } },
+	{ MODKEY|shift_,                XK_q,      tagmon,         {.i = -1 } },
+	{ MODKEY|shift_,                XK_w,      tagmon,         {.i = +1 } },
 	TAGKEYS(                        XK_a,                      0)
 	TAGKEYS(                        XK_s,                      1)
 	TAGKEYS(                        XK_d,                      2)
