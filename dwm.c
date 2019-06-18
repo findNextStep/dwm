@@ -405,22 +405,20 @@ arrangemon(Monitor *m)
 void
 attach(Client *c)
 {
-	c->next = c->mon->clients;
-	c->mon->clients = c;
+    Client* now_client = c->mon->sel;
+    if (now_client != NULL && !now_client->isfloating){
+        c->next = now_client->next;
+        now_client->next = c;
+    }else{
+        c->next = c->mon->clients;
+        c->mon->clients = c;
+    }
 }
 
 void
 attachabove(Client *c)
 {
-	if(c->mon->sel == NULL || c->mon->sel == c->mon->clients || c->mon->sel->isfloating) {
-		attach(c);
-		return;
-	}
-
-	Client *at;
-	for(at = c->mon->clients; at->next != c->mon->sel; at = at->next);
-	c->next = at->next;
-	at->next = c;
+    attach(c);
 }
 
 void
