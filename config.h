@@ -32,7 +32,6 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
 /* layout(s) */
@@ -84,7 +83,7 @@ static Key keys[] = {
     /* about windows move */
 	{ MODKEY,                       XK_n,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+    { MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
     { MODKEY|ctrl_k,                XK_j,      pushdown,       {0} },
     { MODKEY|ctrl_k,                XK_k,      pushup,         {0} },
 	{ MODKEY|shift_,                XK_h,      incnmaster,     {.i = +1 } },
@@ -100,6 +99,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_t,      togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } }, // show all windows
     { MODKEY|shift_,                XK_0,      tag,            {.ui = ~0 } }, // show in all tags
+    /* switch monitor */
 	{ MODKEY,                       XK_q,      focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_w,      focusmon,       {.i = +1 } },
 	{ MODKEY|shift_,                XK_q,      tagmon,         {.i = -1 } },
