@@ -924,6 +924,7 @@ drawbar(Monitor *m)
 			if (i > 0)
 				mw += ew / i;
 
+            int cnt = 1;
 			for (c = m->clients; c; c = c->next) {
 				if (!ISVISIBLE(c))
 					continue;
@@ -932,7 +933,7 @@ drawbar(Monitor *m)
 				drw_setscheme(drw, scheme[m->sel == c ? SchemeSel : SchemeNorm]);
 				if (tw > 0) /* trap special handling of 0 in drw_text */
                 {
-					{ 
+					{
 						int switch_x = draw_switch(drw,x,last_scheme,m->sel == c ? SchemeSel : SchemeNorm,"","");
 						tw += switch_x - x;
 						x = switch_x;
@@ -941,9 +942,21 @@ drawbar(Monitor *m)
 					if (icon){
 						int icon_tw = TEXTW(icon);
 						drw_text(drw, x, 0, icon_tw, bh, lrpad / 2, icon, 0);
-						tw += icon_tw;
 						x += icon_tw;
 					}
+                    char number[] = " 0 ";
+                    if (cnt <= 9){
+                        number[1] += cnt;
+                        int number_tw = TEXTW(number);
+                        drw_text(drw, x, 0, number_tw, bh, lrpad / 2, number,0);
+                        x += number_tw;
+                        cnt++;
+                    }else{
+                        char number[] = "x";
+                        int number_tw = TEXTW(number);
+                        drw_text(drw, x, 0, number_tw, bh, lrpad / 2, number,0);
+                        x += number_tw;
+                    }
                     last_scheme = m->sel == c ? SchemeSel : SchemeNorm;
 					drw_text(drw, x, 0, tw, bh, lrpad / 2, c->name, 0);
                 }
@@ -2364,7 +2377,7 @@ void
 updatestatus(void)
 {
 	if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
-		strcpy(stext, "dwm");
+		strcpy(stext, "findNextStep");
 	drawbar(selmon);
 	updatesystray();
 }
