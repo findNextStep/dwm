@@ -846,6 +846,24 @@ int draw_switch(Drw *drw,int x,int last_scheme,int scheme_n,const char* diff,con
     return x + w;
 }
 
+char * 
+get_icon(const Client* c){
+	if (strstr(c->name,"Firefox")){
+		return "";
+	}else if (strstr(c->name,"Visual Studio Code")){
+		return "";
+	}else if (strstr(c->name,"vim")){
+		return "";
+	}else if (strstr(c->name,"make") || strstr(c->name,"cb")){
+		return "";
+	}else if (strstr(c->name,"editor")){
+		return "";
+	}else if (strstr(c->name,"typora")){
+		return "";
+	}
+	return NULL;
+}
+
 void
 drawbar(Monitor *m)
 {
@@ -857,18 +875,6 @@ drawbar(Monitor *m)
 
 	if(showsystray && m == systraytomon(m))
 		stw = getsystraywidth();
-
-
-	/* draw status first so it can be overdrawn by tags later */
-	if (m == selmon) { /* status is only drawn on selected monitor */
-        /* static char stext[] = "1234567"; */
-        drw_setscheme(drw, scheme[SchemeSel]);
-        sw = TEXTW(stext);
-        drw_text(drw,
-                m->ww - sw - stw, 0,
-                sw, bh,
-                lrpad/2, stext, 0);
-	}
 
 	resizebarwin(m);
 
@@ -926,7 +932,18 @@ drawbar(Monitor *m)
 				drw_setscheme(drw, scheme[m->sel == c ? SchemeSel : SchemeNorm]);
 				if (tw > 0) /* trap special handling of 0 in drw_text */
                 {
-                    x = draw_switch(drw,x,last_scheme,m->sel == c ? SchemeSel : SchemeNorm,"","");
+					{ 
+						int switch_x = draw_switch(drw,x,last_scheme,m->sel == c ? SchemeSel : SchemeNorm,"","");
+						tw += switch_x - x;
+						x = switch_x;
+					}
+					char * icon = get_icon(c);
+					if (icon){
+						int icon_tw = TEXTW(icon);
+						drw_text(drw, x, 0, icon_tw, bh, lrpad / 2, icon, 0);
+						tw += icon_tw;
+						x += icon_tw;
+					}
                     last_scheme = m->sel == c ? SchemeSel : SchemeNorm;
 					drw_text(drw, x, 0, tw, bh, lrpad / 2, c->name, 0);
                 }
@@ -944,6 +961,14 @@ drawbar(Monitor *m)
 		drw_rect(drw, x, 0, w, bh, 1, 1);
         x = draw_switch(drw,x,last_scheme,SchemeNorm,""," ");
         last_scheme = SchemeNorm;
+	}
+	if (m == selmon) { /* status is only drawn on selected monitor */
+        drw_setscheme(drw, scheme[SchemeSel]);
+        sw = TEXTW(stext);
+        drw_text(drw,
+                m->ww - sw - stw, 0,
+                sw, bh,
+                lrpad / 2, stext, 0);
 	}
 	drw_map(drw, m->barwin, 0, 0, m->ww - stw, bh);
 }
