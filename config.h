@@ -15,11 +15,11 @@ static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#000000";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
+static const char col_cyan[]        = "#0088ff";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  "#ff0000"  },
+	[SchemeNorm] = { col_cyan, "#000000", col_gray2 },
+	[SchemeSel]  = { "#000000", col_cyan,  "#ff0000"  },
 };
 
 /* tagging */
@@ -43,7 +43,7 @@ static const Layout layouts[] = {
 	/* symbol     arrange function */
     { " 匿 ",      tile },    /* first entry is default */
     { " ﲔ ",      bstack },  /* vertical layout */
-	{ "  ",      monocle }, /* full screen */
+	{ "  ",      monocle }, /* full screen */
 };
 
 /* key definitions */
