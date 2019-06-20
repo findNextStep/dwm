@@ -74,6 +74,15 @@ static const char *termcmd[]    = { "st",           NULL };
 static Key keys[] = {
 	/* modifier                     key        function        argument */
     /* applications */
+    { superk,                       XK_1,      focus_client,   {.i = 0} },
+    { superk,                       XK_2,      focus_client,   {.i = 1} },
+    { superk,                       XK_3,      focus_client,   {.i = 2} },
+    { superk,                       XK_4,      focus_client,   {.i = 3} },
+    { superk,                       XK_5,      focus_client,   {.i = 4} },
+    { superk,                       XK_6,      focus_client,   {.i = 5} },
+    { superk,                       XK_7,      focus_client,   {.i = 6} },
+    { superk,                       XK_8,      focus_client,   {.i = 7} },
+    { superk,                       XK_9,      focus_client,   {.i = 8} },
 	{ superk,                       XK_j,      spawn,          {.v = dmenucmd } },
 	{ superk,                       XK_d,      spawn,          SHCMD("firefox") },
 	{ superk,                       XK_f,      spawn,          SHCMD("nemo") },
