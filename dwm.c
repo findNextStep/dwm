@@ -832,6 +832,20 @@ dirtomon(int dir)
 	return m;
 }
 
+int draw_switch(Drw *drw,int x,int last_scheme,int scheme_n,const char* diff,const char*nodiff){
+    int w=0;
+    if (last_scheme != -1 && last_scheme != scheme_n){
+        w = TEXTW(diff);
+        drw_setscheme(drw, scheme[scheme_n]);
+        drw_text(drw, x, 0, w, bh, 0, diff, 0);
+    }else{
+        w = TEXTW(nodiff);
+        drw_setscheme(drw, scheme[scheme_n]);
+        drw_text(drw, x, 0, w, bh, 0 , nodiff, 0);
+    }
+    return x + w;
+}
+
 void
 drawbar(Monitor *m)
 {
@@ -847,9 +861,13 @@ drawbar(Monitor *m)
 
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
-		drw_setscheme(drw, scheme[SchemeNorm]);
-		sw = TEXTW(stext) - lrpad / 2 + 2; /* 2px right padding */
-		drw_text(drw, m->ww - sw - stw, 0, sw, bh, lrpad / 2 - 2, stext, 0);
+        /* static char stext[] = "1234567"; */
+        drw_setscheme(drw, scheme[SchemeSel]);
+        sw = TEXTW(stext);
+        drw_text(drw,
+                m->ww - sw - stw, 0,
+                sw, bh,
+                lrpad/2, stext, 0);
 	}
 
 	resizebarwin(m);
@@ -862,16 +880,22 @@ drawbar(Monitor *m)
 			urg |= c->tags;
 	}
 	x = 0;
+    int last_scheme = -1;
 	for (i = 0; i < LENGTH(tags); i++) {
 		w = TEXTW(tags[i]);
-		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
+        int scheme_n = m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm;
+        x = draw_switch(drw,x,last_scheme,scheme_n,""," ");
+		drw_setscheme(drw, scheme[scheme_n]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
 		if (occ & 1 << i)
 			drw_rect(drw, x + boxs, boxs, boxw, boxw,
 				m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
 				urg & 1 << i);
 		x += w;
+        last_scheme = m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm;
 	}
+    x = draw_switch(drw,x,last_scheme,SchemeNorm,"","");
+    last_scheme = SchemeNorm;
 	w = blw = TEXTW(m->ltsymbol);
 	drw_setscheme(drw, scheme[SchemeNorm]);
 	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
@@ -901,15 +925,25 @@ drawbar(Monitor *m)
 
 				drw_setscheme(drw, scheme[m->sel == c ? SchemeSel : SchemeNorm]);
 				if (tw > 0) /* trap special handling of 0 in drw_text */
+                {
+                    x = draw_switch(drw,x,last_scheme,m->sel == c ? SchemeSel : SchemeNorm,"","");
+                    last_scheme = m->sel == c ? SchemeSel : SchemeNorm;
 					drw_text(drw, x, 0, tw, bh, lrpad / 2, c->name, 0);
-				if (c->isfloating)
-					drw_rect(drw, x + boxs, boxs, boxw, boxw, c->isfixed, 0);
+                }
+                if (c->isfloating){
+                    const char float_flag[] = " ";
+                    const int fw = TEXTW(float_flag);
+					drw_text(drw, x + tw, 0, fw, bh, lrpad / 2, float_flag, 0);
+                    tw += fw;
+                }
 				x += tw;
 				w -= tw;
 			}
 		}
 		drw_setscheme(drw, scheme[SchemeNorm]);
 		drw_rect(drw, x, 0, w, bh, 1, 1);
+        x = draw_switch(drw,x,last_scheme,SchemeNorm,""," ");
+        last_scheme = SchemeNorm;
 	}
 	drw_map(drw, m->barwin, 0, 0, m->ww - stw, bh);
 }
@@ -1309,8 +1343,6 @@ monocle(Monitor *m)
 	for (c = m->clients; c; c = c->next)
 		if (ISVISIBLE(c))
 			n++;
-	if (n > 0) /* override layout symbol */
-		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
 	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
 		resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
 }
@@ -1808,8 +1840,9 @@ setup(void)
 	drw = drw_create(dpy, screen, root, sw, sh);
 	if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
 		die("no fonts could be loaded.");
-	lrpad = drw->fonts->h;
-	bh = drw->fonts->h + 2;
+	/* lrpad = drw->fonts->h; */
+    lrpad= 0;
+	bh = drw->fonts->h;
 	updategeom();
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
@@ -2306,7 +2339,7 @@ void
 updatestatus(void)
 {
 	if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
-		strcpy(stext, "dwm-"VERSION);
+		strcpy(stext, "dwm");
 	drawbar(selmon);
 	updatesystray();
 }
