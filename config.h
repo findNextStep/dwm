@@ -32,7 +32,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-    { NULL,       "tim.exe",  NULL,       1 << (sizeof(tags) - 1),       0,           1 },
+    { NULL,       "tim.exe",  NULL,       1 << 7,       0,           1 },
 };
 
 /* layout(s) */
