@@ -126,7 +126,7 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_p,      toggleview,     {.ui = 1 << 7} }, \
 	{ MODKEY|ShiftMask,             XK_p,      tag,            {.ui = 1 << 7} }, \
 	{ MODKEY|ControlMask|ShiftMask, XK_p,      toggletag,      {.ui = 1 << 7} },
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_r,      quit,           {0} },
 };
 
 /* button definitions */
