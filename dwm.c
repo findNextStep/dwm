@@ -927,9 +927,12 @@ drawbar(Monitor *m)
 
             int cnt = 1;
 			for (c = m->clients; c; c = c->next) {
+                char name[15];
+                strncpy(name,c->name,13);
+                name[14] = '\0';
 				if (!ISVISIBLE(c))
 					continue;
-				tw = MIN(m->sel == c ? w : mw, TEXTW(c->name));
+				tw = MIN(m->sel == c ? w : mw, TEXTW(name));
 
 				drw_setscheme(drw, scheme[m->sel == c ? SchemeSel : SchemeNorm]);
 				if (tw > 0) /* trap special handling of 0 in drw_text */
@@ -959,7 +962,7 @@ drawbar(Monitor *m)
                         x += number_tw;
                     }
                     last_scheme = m->sel == c ? SchemeSel : SchemeNorm;
-					drw_text(drw, x, 0, tw, bh, lrpad / 2, c->name, 0);
+					drw_text(drw, x, 0, tw, bh, lrpad / 2, name, 0);
                 }
                 if (c->isfloating){
                     const char float_flag[] = " ";
