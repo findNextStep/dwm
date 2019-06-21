@@ -927,9 +927,9 @@ drawbar(Monitor *m)
 
             int cnt = 1;
 			for (c = m->clients; c; c = c->next) {
-                char name[15];
-                strncpy(name,c->name,13);
-                name[14] = '\0';
+                XClassHint ch = { NULL, NULL };
+                XGetClassHint(dpy, c->win, &ch);
+                const char*name = ch.res_class != NULL ? ch.res_class : broken;
 				if (!ISVISIBLE(c))
 					continue;
 				tw = MIN(m->sel == c ? w : mw, TEXTW(name));
@@ -972,6 +972,10 @@ drawbar(Monitor *m)
                 }
 				x += tw;
 				w -= tw;
+                if (ch.res_class)
+                    XFree(ch.res_class);
+                if (ch.res_name)
+                    XFree(ch.res_name);
 			}
 		}
 		drw_setscheme(drw, scheme[SchemeNorm]);
