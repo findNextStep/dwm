@@ -104,6 +104,8 @@ typedef struct Monitor Monitor;
 typedef struct Client Client;
 struct Client {
 	char name[256];
+    char res_class[256];
+    char res_name[256];
 	float mina, maxa;
 	int x, y, w, h;
 	int oldx, oldy, oldw, oldh;
@@ -927,9 +929,7 @@ drawbar(Monitor *m)
 
             int cnt = 1;
 			for (c = m->clients; c; c = c->next) {
-                XClassHint ch = { NULL, NULL };
-                XGetClassHint(dpy, c->win, &ch);
-                const char*name = ch.res_class != NULL ? ch.res_class : broken;
+                const char*name = c->res_name;
 				if (!ISVISIBLE(c))
 					continue;
 				tw = MIN(m->sel == c ? w : mw, TEXTW(name));
@@ -972,10 +972,6 @@ drawbar(Monitor *m)
                 }
 				x += tw;
 				w -= tw;
-                if (ch.res_class)
-                    XFree(ch.res_class);
-                if (ch.res_name)
-                    XFree(ch.res_name);
 			}
 		}
 		drw_setscheme(drw, scheme[SchemeNorm]);
@@ -2520,10 +2516,30 @@ updatesystray(void)
 void
 updatetitle(Client *c)
 {
-	if (!gettextprop(c->win, netatom[NetWMName], c->name, sizeof c->name))
+    if (!gettextprop(c->win, netatom[NetWMName], c->name, sizeof c->name)){
 		gettextprop(c->win, XA_WM_NAME, c->name, sizeof c->name);
-	if (c->name[0] == '\0') /* hack to mark broken clients */
+    }
+    if (c->name[0] == '\0'){
 		strcpy(c->name, broken);
+        strcpy(c->res_class, broken);
+        strcpy(c->res_name, broken);
+    }else{
+        XClassHint ch = { NULL, NULL };
+        XGetClassHint(dpy, c->win, &ch);
+        if (ch.res_class){
+            strcpy(c->res_class,ch.res_class);
+            XFree(ch.res_class);
+        }else{
+            strcpy(c->res_class, broken);
+        }
+
+        if (ch.res_name){
+            strcpy(c->res_name, ch.res_name);
+            XFree(ch.res_name);
+        }else{
+            strcpy(c->res_name, broken);
+        }
+    }
 }
 
 void
