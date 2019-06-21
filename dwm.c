@@ -863,7 +863,9 @@ get_icon(const Client* c){
 		return "";
 	}else if (strstr(c->name,"typora")){
 		return "";
-	}
+    }else if (strstr(c->res_name,"tim.exe")){
+        return "ﬄ";
+    }
 	return NULL;
 }
 
