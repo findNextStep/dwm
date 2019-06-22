@@ -1830,14 +1830,14 @@ void my_setlayout(const Arg*arg){
         if(selmon->lt[selmon->sellt] != &layouts[0]){
             // when we don`t use default layout
             // toggle to default layout
-            selmon->lt[selmon->sellt] = &layouts[0];
+            selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt] = &layouts[0];
         }else{
             // else toggle to second layout
-            selmon->lt[selmon->sellt] = &layouts[1];
+            selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt] = &layouts[1];
         }
     }
     if (arg && arg->v)
-        selmon->lt[selmon->sellt] = (Layout *)arg->v;
+		selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt] = (Layout *)arg->v;
     strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, sizeof selmon->ltsymbol);
     if (selmon->sel)
         arrange(selmon);
