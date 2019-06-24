@@ -9,7 +9,7 @@ static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int topbar             = 0;        /* 0 means bottom bar */
-static const char *fonts[]          = { "DroidSansMono Nerd Font:size=15" };
+static const char *fonts[]          = { "DroidSansMono Nerd Font:size=12" };
 static const char dmenufont[]       = "DroidSansMono Nerd Font:size=20";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#000000";
