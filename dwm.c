@@ -1339,6 +1339,11 @@ manage(Window w, XWindowAttributes *wa)
 	grabbuttons(c, 0);
 	if (!c->isfloating)
 		c->isfloating = c->oldstate = trans != None || c->isfixed;
+    if (strstr(c->res_name,"tim.exe") && c->isfloating){
+        // tim的登录窗口不移动
+        c->tags = c->mon->tagset[c->mon->seltags];
+        c->mon = selmon;
+    }
 	if (c->isfloating)
 		XRaiseWindow(dpy, c->win);
 	attach(c);
