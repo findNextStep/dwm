@@ -1600,9 +1600,11 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	c->oldw = c->w; c->w = wc.width = w;
 	c->oldh = c->h; c->h = wc.height = h;
 	wc.border_width = c->bw;
-	if (((nexttiled(c->mon->clients) == c && !nexttiled(c->next))
-	    || &monocle == c->mon->lt[c->mon->sellt]->arrange)
-	    && !c->isfullscreen && !c->isfloating) {
+    if ((c->mon->clients && !c->mon->clients->next) || (c->mon->pertag->ltidxs[c->mon->pertag->curtag][c->mon->sellt] == &layouts[2])){
+        printf("catch\n");
+	/* if (((nexttiled(c->mon->clients) == c && !nexttiled(c->next)) */
+		/* || &monocle == c->mon->lt[c->mon->sellt]->arrange) */
+		/* && !c->isfullscreen && !c->isfloating) { */
 		c->w = wc.width += c->bw * 2;
 		c->h = wc.height += c->bw * 2;
 		wc.border_width = 0;
