@@ -1,0 +1,3 @@
+[submodule "3rdparty/next_dwm_status"]
+	path = 3rdparty/next_dwm_status
+	url = https://github.com/findNextStep/next_dwm_status
