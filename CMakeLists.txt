@@ -5,7 +5,7 @@ set(CMAKE_INSTALL_PREFIX $ENV{HOME}/.local)
 
 add_subdirectory(3rdparty/next_dwm_status)
 
-add_definitions(-DVERSION="6.2" -std=c99)
+add_definitions(-DVERSION="6.2" -std=c99 -DXINERAMA)
 add_library(util drw.c util.c)
 target_link_libraries(util X11)
 
@@ -15,5 +15,5 @@ include_directories(
 
 
 add_executable(dwm dwm.c)
-target_link_libraries(dwm util fontconfig Xft)
+target_link_libraries(dwm util fontconfig Xft Xinerama)
 install(TARGETS dwm)
