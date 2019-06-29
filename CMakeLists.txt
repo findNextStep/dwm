@@ -4,10 +4,12 @@ project(dwm)
 set(CMAKE_INSTALL_PREFIX $ENV{HOME}/.local)
 
 add_subdirectory(3rdparty/next_dwm_status)
+add_subdirectory(3rdparty/st)
+add_subdirectory(3rdparty/dmenu)
 
 add_definitions(-DVERSION="6.2" -std=c99 -DXINERAMA)
-add_library(util drw.c util.c)
-target_link_libraries(util X11)
+add_library(dwm_util drw.c util.c)
+target_link_libraries(dwm_util X11)
 
 include_directories(
     /usr/include/freetype2
@@ -15,5 +17,5 @@ include_directories(
 
 
 add_executable(dwm dwm.c)
-target_link_libraries(dwm util fontconfig Xft Xinerama)
+target_link_libraries(dwm dwm_util fontconfig Xft Xinerama X11)
 install(TARGETS dwm)

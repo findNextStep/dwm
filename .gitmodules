@@ -1,3 +1,9 @@
 [submodule "3rdparty/next_dwm_status"]
 	path = 3rdparty/next_dwm_status
 	url = https://github.com/findNextStep/next_dwm_status
+[submodule "3rdparty/dmenu"]
+	path = 3rdparty/dmenu
+	url = https://github.com/findNextStep/dmenu
+[submodule "3rdparty/st"]
+	path = 3rdparty/st
+	url = https://github.com/findNextStep/st
