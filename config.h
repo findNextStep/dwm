@@ -1,5 +1,12 @@
 #include "push.c"
 #include <X11/XF86keysym.h>
+#include <volume.h>
+void volume_set(const Arg *arg){
+	audio_volume(AUDIO_VOLUME_SET,&arg->i);
+}
+void volume_plus(const Arg *arg){
+	audio_volume(AUDIO_VOLUME_PLUS,&arg->i);
+}
 /* See LICENSE file for copyright and license details. */
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -129,9 +136,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_p,      tag,            {.ui = 1 << 7} }, \
 	{ MODKEY|ControlMask|ShiftMask, XK_p,      toggletag,      {.ui = 1 << 7} },
 	{ MODKEY|ShiftMask,             XK_r,      quit,           {0} },
-    {0,                             XF86XK_AudioMute,spawn, SHCMD("pactl set-sink-volume 0 0%") },
-    {0,                             XF86XK_AudioLowerVolume,spawn, SHCMD("pactl set-sink-volume 0 0%") },
-    {0,                             XF86XK_AudioRaiseVolume,spawn,SHCMD("pactl set-sink-volume 0 +5%")},
+    {0,                             XF86XK_AudioMute,volume_set, {.i=0}},
+    {0,                             XF86XK_AudioLowerVolume,volume_plus,{.i=-5}},
+    {0,                             XF86XK_AudioRaiseVolume,volume_plus,{.i=5}},
 };
 
 /* button definitions */

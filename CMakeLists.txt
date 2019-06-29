@@ -7,6 +7,8 @@ add_subdirectory(3rdparty/next_dwm_status)
 add_subdirectory(3rdparty/st)
 add_subdirectory(3rdparty/dmenu)
 
+include_directories(3rdparty/next_dwm_status/include)
+
 add_library(dwm_util drw.c util.c)
 target_compile_options(dwm_util PRIVATE -std=c99 -DXINERAMA)
 target_link_libraries(dwm_util X11)
@@ -18,5 +20,5 @@ include_directories(
 
 add_executable(dwm dwm.c)
 target_compile_options(dwm PRIVATE -DVERSION="6.2" -std=c99 -DXINERAMA)
-target_link_libraries(dwm dwm_util fontconfig Xft Xinerama X11)
+target_link_libraries(dwm dwm_util fontconfig Xft Xinerama X11 util_volume)
 install(TARGETS dwm)
