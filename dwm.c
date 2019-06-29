@@ -926,8 +926,8 @@ drawbar(Monitor *m)
             int cnt = 1;
 			for (c = m->clients; c; c = c->next) {
                 const char*name = c->res_name;
-				/* if (!ISVISIBLE(c)) */
-					/* continue; */
+                if (!ISVISIBLE(c))
+                    continue;
 				tw = MIN(m->sel == c ? w : mw, TEXTW(name));
 
 				drw_setscheme(drw, scheme[m->sel == c ? SchemeSel : SchemeNorm]);
