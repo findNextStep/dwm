@@ -1,11 +1,11 @@
 #include "push.c"
 #include <X11/XF86keysym.h>
-#include <volume.h>
+#include "volume.h"
 void volume_set(const Arg *arg){
-	audio_volume(AUDIO_VOLUME_SET,&arg->i);
+	audio_volume_set(arg->i);
 }
 void volume_plus(const Arg *arg){
-	audio_volume(AUDIO_VOLUME_PLUS,&arg->i);
+	audio_volume_plus(arg->i);
 }
 /* See LICENSE file for copyright and license details. */
 /* appearance */
