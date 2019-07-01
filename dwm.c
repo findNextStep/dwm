@@ -853,12 +853,14 @@ get_icon(const Client* c){
 		return "";
 	}else if (strstr(c->name,"make") || strstr(c->name,"cb")){
 		return "";
-	}else if (strstr(c->name,"editor")){
+	}else if (strstr(c->res_name,"gedit")){
 		return "";
-	}else if (strstr(c->name,"typora")){
+	}else if (strstr(c->res_name,"typora")){
 		return "";
     }else if (strstr(c->res_name,"tim.exe")){
         return "ﬄ";
+    }else if (strstr(c->res_name,"nemo")){
+        return "";
     }
 	return NULL;
 }
