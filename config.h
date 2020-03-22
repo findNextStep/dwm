@@ -98,6 +98,7 @@ static Key keys[] = {
 	{ superk|shift_,                XK_Return, spawn,          SHCMD("dmenu_z") },
 	{ superk,                       XK_Return, spawn,          SHCMD("st") },
     { ctrl_k|l_alt_,                XK_a,      spawn,          SHCMD("shutter -s -n -c")  },
+    { l_alt_,                       XK_g,      spawn,          SHCMD("adb shell input tap 1878 363&&sleep 5&&adb shell input tap 1878 963&&sleep 1&&adb shell input tap 1878 963")  },
     /* about windows move */
 	{ MODKEY,                       XK_n,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
